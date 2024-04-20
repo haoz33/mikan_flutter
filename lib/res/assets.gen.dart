@@ -15,7 +15,7 @@ class Assets {
   static const AssetGenImage mikan = AssetGenImage('assets/mikan.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [mikan];
+  static List<AssetGenImage> get values => [mikan];
 }
 
 class AssetGenImage {

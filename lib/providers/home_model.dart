@@ -22,7 +22,7 @@ class HomeModel extends BaseModel {
 
   bool get checkingUpgrade => _checkingUpgrade;
 
-  Future<void> checkAppVersion([bool autoCheck = true]) async {
+  Future<void> checkAppVersion([bool autoCheck = false]) async {
     if (_checkingUpgrade) {
       return;
     }

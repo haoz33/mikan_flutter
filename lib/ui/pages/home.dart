@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<HomeModel>(context, listen: false).checkAppVersion();
+    // Provider.of<HomeModel>(context, listen: false).checkAppVersion();
   }
 
   @override

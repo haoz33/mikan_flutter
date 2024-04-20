@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../aria2/aria_config.dart';
 import '../model/announcement.dart';
 import '../model/bangumi.dart';
 import '../model/bangumi_row.dart';
@@ -34,6 +35,7 @@ class MyHive {
   static const int mikanRecordItem = mikanYearSeason + 1;
   static const int mikanAnnouncement = mikanRecordItem + 1;
   static const int mikanAnnouncementNode = mikanAnnouncement + 1;
+  static const int ariaConfig = mikanAnnouncementNode + 1;
 
   static late final Box settings;
   static late final Box db;
@@ -60,6 +62,8 @@ class MyHive {
     Hive.registerAdapter(RecordItemAdapter());
     Hive.registerAdapter(AnnouncementAdapter());
     Hive.registerAdapter(AnnouncementNodeAdapter());
+    Hive.registerAdapter(AriaConfigAdapter());
+
     db = await Hive.openBox(HiveBoxKey.db);
     settings = await Hive.openBox(HiveBoxKey.settings);
     MikanUrls.baseUrl = MyHive.getMirrorUrl();
@@ -232,6 +236,14 @@ class MyHive {
   static Future<void> setCardWidth(Decimal width) {
     return settings.put(SettingsHiveKey.cardWidth, width.toString());
   }
+
+  static Future<void> setAriaSetting(AriaConfig config) {
+    return settings.put(SettingsHiveKey.ariaSetting, config);
+  }
+
+  static AriaConfig? getAriaSetting() {
+    return settings.get(SettingsHiveKey.ariaSetting);
+  }
 }
 
 class HiveDBKey {
@@ -264,6 +276,7 @@ class SettingsHiveKey {
   static const String cardStyle = 'CARD_STYLE';
   static const String tabletMode = 'TABLET_MODE';
   static const String dynamicColor = 'DYNAMIC_COLOR';
+  static const String ariaSetting = 'ARIA2_SETTING';
 }
 
 enum TabletMode {

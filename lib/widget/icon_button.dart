@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../aria2/aria_repository.dart';
 import '../internal/extension.dart';
+import '../providers/bangumi_model.dart';
 import 'ripple_tap.dart';
 
 class ActionButton extends StatelessWidget {
@@ -89,6 +92,26 @@ class TMSMenuButton extends StatelessWidget {
     return MenuAnchor(
       alignmentOffset: const Offset(-90.0, -8.0),
       menuChildren: [
+        MenuItemButton(
+          onPressed: () {
+            final name = context.read<BangumiModel>().bangumiDetail?.name;
+
+            context
+                .read<AriaRepository>()
+                .addMagnet(magnet, relativePath: name)
+                .then((error) {
+              if (error != null) {
+                error.toast();
+              } else {
+                '添加成功'.toast(
+                  duration: const Duration(seconds: 5),
+                );
+              }
+            });
+          },
+          leadingIcon: const Icon(Icons.download_for_offline_outlined),
+          child: const Text('Download Via Aria2'),
+        ),
         MenuItemButton(
           onPressed: torrent.launchAppAndCopy,
           leadingIcon: const Icon(Icons.send_and_archive_rounded),

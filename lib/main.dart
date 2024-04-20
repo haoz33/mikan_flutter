@@ -16,6 +16,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'aria2/aria_repository.dart';
+import 'aria2/text_field_theme.dart';
 import 'internal/dynamic_color.dart';
 import 'internal/extension.dart';
 import 'internal/hive.dart';
@@ -133,6 +135,11 @@ class _MikanAppState extends State<MikanApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider(
+          create: (_) => AriaRepository(
+            config: MyHive.getAriaSetting(),
+          ),
+        ),
         ChangeNotifierProvider<FontsModel>(
           create: (context) => FontsModel(),
           lazy: false,
@@ -186,6 +193,7 @@ class _MikanAppState extends State<MikanApp> {
             fontFamily: fontFamily,
             colorScheme: lightColorScheme,
             visualDensity: VisualDensity.standard,
+            inputDecorationTheme: inputDecorationTheme,
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
@@ -193,6 +201,7 @@ class _MikanAppState extends State<MikanApp> {
             fontFamily: fontFamily,
             colorScheme: darkColorScheme,
             visualDensity: VisualDensity.standard,
+            inputDecorationTheme: inputDecorationTheme,
           ),
           initialRoute: Routes.splash.name,
           builder: FlutterSmartDialog.init(
@@ -299,8 +308,7 @@ class _ThemeProviderState extends LifecycleAppState<ThemeProvider> {
 }
 
 class AlwaysStretchScrollBehavior extends ScrollBehavior {
-  const AlwaysStretchScrollBehavior()
-      : super(androidOverscrollIndicator: AndroidOverscrollIndicator.stretch);
+  const AlwaysStretchScrollBehavior() : super();
 
   @override
   Set<PointerDeviceKind> get dragDevices => PointerDeviceKind.values.toSet();

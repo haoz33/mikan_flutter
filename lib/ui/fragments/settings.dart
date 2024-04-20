@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../aria2/aria_setting_page.dart';
 import '../../internal/extension.dart';
 import '../../internal/hive.dart';
 import '../../internal/image_provider.dart';
@@ -61,6 +62,8 @@ class SettingsPanel extends StatelessWidget {
                       _buildPrivacyPolicy(context, theme),
                       _buildClearCache(context, settingsModel, theme),
                       _buildCheckUpdate(context, theme),
+                      _buildSection(theme, 'Ari2'),
+                      _buildAria2Setting(context, theme),
                       sizedBoxH24WithNavBarHeight(context),
                     ],
                   ),
@@ -420,6 +423,33 @@ class SettingsPanel extends StatelessWidget {
     );
   }
 
+  Widget _buildAria2Setting(BuildContext context, ThemeData theme) {
+    return RippleTap(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => const AriaSettingPage(),
+          ),
+        );
+      },
+      child: Container(
+        padding: edgeH24,
+        height: 50.0,
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Aria2设置',
+                style: theme.textTheme.titleMedium,
+              ),
+            ),
+            const Icon(Icons.east_rounded),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildDonate(BuildContext context, ThemeData theme) {
     return RippleTap(
       onTap: () {
@@ -514,7 +544,7 @@ class SettingsPanel extends StatelessWidget {
       onTap: () {
         final HomeModel homeModel =
             Provider.of<HomeModel>(context, listen: false);
-        homeModel.checkAppVersion(false);
+        homeModel.checkAppVersion();
       },
       child: Container(
         padding: edgeH24,

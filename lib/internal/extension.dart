@@ -103,14 +103,12 @@ extension NullableStringExt on String? {
 
   bool get isNotBlank => this != null && !this!.isBlank;
 
-  void toast() {
+  void toast({Duration? duration}) {
     if (isNullOrBlank) {
       return;
     }
-    SmartDialog.showToast(
-      this!,
-      alignment: const AlignmentDirectional(0.0, 0.72),
-    );
+    SmartDialog.showToast(this!,
+        alignment: const Alignment(0.0, 0.72), displayTime: duration,);
     HapticFeedback.mediumImpact();
   }
 

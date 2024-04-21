@@ -51,6 +51,7 @@ dependencies:
   infinite_carousel: ^1.0.3
   package_info_plus: ^4.1.0
   animations: ^2.0.8
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:

@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../aria2/aria_config.dart';
+import '../aria2/download_util.dart';
 import '../model/announcement.dart';
 import '../model/bangumi.dart';
 import '../model/bangumi_row.dart';
@@ -39,6 +40,7 @@ class MyHive {
 
   static late final Box settings;
   static late final Box db;
+  static late final Box downloadedTorrent;
 
   static Future<void> init() async {
     await Future.wait([
@@ -66,6 +68,7 @@ class MyHive {
 
     db = await Hive.openBox(HiveBoxKey.db);
     settings = await Hive.openBox(HiveBoxKey.settings);
+    downloadedTorrent = await Hive.openBox(HiveBoxKey.downloadedTorrent);
     MikanUrls.baseUrl = MyHive.getMirrorUrl();
   }
 
@@ -244,6 +247,17 @@ class MyHive {
   static AriaConfig? getAriaSetting() {
     return settings.get(SettingsHiveKey.ariaSetting);
   }
+
+  static Future<void> addDownloadedTorrent(String name) {
+    return downloadedTorrent.put(encodeTorrentName(name), true);
+  }
+
+  static bool isTorrentDownloaded(String name) {
+    if (downloadedTorrent.containsKey(encodeTorrentName(name))) {
+      return true;
+    }
+    return false;
+  }
 }
 
 class HiveDBKey {
@@ -262,6 +276,7 @@ class HiveBoxKey {
   static const String db = 'KEY_DB';
   static const String settings = 'KEY_SETTINGS';
   static const String login = 'KEY_LOGIN';
+  static const String downloadedTorrent = 'DOWNLOADED_TORRENT';
 }
 
 class SettingsHiveKey {

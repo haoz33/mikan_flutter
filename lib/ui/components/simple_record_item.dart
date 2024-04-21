@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../internal/extension.dart';
+import '../../internal/hive.dart';
 import '../../model/record_item.dart';
 import '../../topvars.dart';
 import '../../widget/icon_button.dart';
@@ -31,6 +33,7 @@ class SimpleRecordItem extends StatelessWidget {
       theme.colorScheme.surfaceTint,
       1.0,
     );
+
     return TransitionContainer(
       closedColor: closedColor,
       builder: (context, open) {
@@ -87,6 +90,9 @@ class SimpleRecordItem extends StatelessWidget {
                       ),
                     ),
                     sizedBoxW8,
+                    _DownloadedIcon(
+                      record: record,
+                    ),
                     TMSMenuButton(
                       torrent: record.torrent,
                       magnet: record.magnet,
@@ -100,6 +106,28 @@ class SimpleRecordItem extends StatelessWidget {
         );
       },
       next: RecordPage(record: record),
+    );
+  }
+}
+
+class _DownloadedIcon extends StatelessWidget {
+  const _DownloadedIcon({required this.record});
+  final RecordItem record;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: MyHive.downloadedTorrent.listenable(),
+      builder: (BuildContext context, box, Widget? child) {
+        final isDownloaded = MyHive.isTorrentDownloaded(record.magnet);
+        if (isDownloaded) {
+          return const Icon(
+            Icons.check_circle,
+          );
+        }
+        return child!;
+      },
+      child: const SizedBox.shrink(),
     );
   }
 }

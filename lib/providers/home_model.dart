@@ -15,7 +15,7 @@ import 'base_model.dart';
 
 class HomeModel extends BaseModel {
   HomeModel() {
-    checkAppVersion();
+    // checkAppVersion();
   }
 
   bool _checkingUpgrade = false;

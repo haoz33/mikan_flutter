@@ -1,12 +1,10 @@
 import 'package:ff_annotation_route_core/ff_annotation_route_core.dart';
 @FFArgumentImport()
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../internal/extension.dart';
 import '../../internal/kit.dart';
 import '../../internal/lifecycle.dart';
-import '../../providers/home_model.dart';
 import '../../widget/transition_container.dart';
 import '../fragments/index.dart';
 import '../fragments/list.dart';
